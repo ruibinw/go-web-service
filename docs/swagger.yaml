@@ -23,15 +23,11 @@ definitions:
       display_name:
         example: name
         type: string
-      id:
-        example: 1
-        type: integer
       url:
         example: /url
         type: string
     required:
     - display_name
-    - id
     - url
     type: object
   models.Record:
@@ -63,12 +59,10 @@ definitions:
         example: /record/learning-go
         type: string
     type: object
-  utils.ResponseBody:
+  utils.ErrorMessage:
     properties:
-      data: {}
-      errors: {}
-      success:
-        type: boolean
+      errors:
+        type: string
     type: object
 host: localhost:8090
 info:
@@ -89,11 +83,11 @@ paths:
         in: query
         name: displayName
         type: string
-      - description: Page number
+      - description: Page number (default is 0)
         in: query
         name: pageNum
         type: integer
-      - description: Page size
+      - description: Page size (default is 10)
         in: query
         name: pageSize
         type: integer
@@ -101,38 +95,17 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/models.Record'
-                  type: array
-                success:
-                  type: boolean
-              type: object
+            items:
+              $ref: '#/definitions/models.Record'
+            type: array
         "400":
           description: Bad Request
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "500":
           description: Internal Server Error
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
       summary: Get records list with pagination and search
       tags:
       - records
@@ -152,36 +125,15 @@ paths:
         "201":
           description: Created
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.Record'
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/models.Record'
         "400":
           description: Bad Request
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "500":
           description: Internal Server Error
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
       summary: Create a record
       tags:
       - records
@@ -196,46 +148,18 @@ paths:
       responses:
         "204":
           description: No Content
-          schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                success:
-                  type: boolean
-              type: object
         "400":
           description: Bad Request
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "404":
           description: Not Found
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "500":
           description: Internal Server Error
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
       summary: Delete a record
       tags:
       - records
@@ -250,47 +174,19 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.Record'
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/models.Record'
         "400":
           description: Bad Request
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "404":
           description: Not Found
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "500":
           description: Internal Server Error
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
       summary: Get a record by ID
       tags:
       - records
@@ -315,47 +211,19 @@ paths:
         "200":
           description: OK
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                data:
-                  $ref: '#/definitions/models.Record'
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/models.Record'
         "400":
           description: Bad Request
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "404":
           description: Not Found
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
         "500":
           description: Internal Server Error
           schema:
-            allOf:
-            - $ref: '#/definitions/utils.ResponseBody'
-            - properties:
-                errors:
-                  type: string
-                success:
-                  type: boolean
-              type: object
+            $ref: '#/definitions/utils.ErrorMessage'
       summary: Update a record
       tags:
       - records

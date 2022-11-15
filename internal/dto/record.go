@@ -11,7 +11,7 @@ type CreateRecordRequest struct {
 }
 
 type UpdateRecordRequest struct {
-	ID          int64  `json:"id,omitempty" param:"id" validate:"required" example:"1"`
+	ID          int64  `json:"id,omitempty" param:"id" validate:"required" swaggerignore:"true"`
 	Url         string `json:"url"          validate:"required" example:"/url"`
 	DisplayName string `json:"display_name" validate:"required" example:"name"`
 	Description string `json:"description"  example:"This is a description"`

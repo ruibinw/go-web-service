@@ -20,17 +20,11 @@ func NewRecordController(service services.RecordService) *RecordController {
 }
 
 func errorResponse(c echo.Context, status int, err error) error {
-	return c.JSON(status, utils.ResponseBody{
-		Success: false,
-		Errors:  err.Error(),
-	})
+	return c.JSON(status, utils.ErrorMessage{err.Error()})
 }
 
 func successResponse(c echo.Context, status int, data any) error {
-	return c.JSON(status, utils.ResponseBody{
-		Success: true,
-		Data:    data,
-	})
+	return c.JSON(status, data)
 }
 
 // Create godoc
@@ -39,9 +33,9 @@ func successResponse(c echo.Context, status int, data any) error {
 // @Accept       json
 // @Produce      json
 // @Param        record body dto.CreateRecordRequest true "Create Record Request"
-// @Success      201  {object}  utils.ResponseBody{success=bool,data=models.Record}
-// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Success      201  {object}  models.Record
+// @Failure      400  {object}  utils.ErrorMessage
+// @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records [post]
 func (ctrl *RecordController) Create(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -71,10 +65,10 @@ func (ctrl *RecordController) Create(c echo.Context) error {
 // @Produce      json
 // @Param        id path int true "Update Record ID"
 // @Param        record body dto.UpdateRecordRequest true "Update Record Request"
-// @Success      200  {object}  utils.ResponseBody{success=bool,data=models.Record}
-// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Success      200  {object}  models.Record
+// @Failure      400  {object}  utils.ErrorMessage
+// @Failure      404  {object}  utils.ErrorMessage
+// @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [put]
 func (ctrl *RecordController) Update(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -105,10 +99,10 @@ func (ctrl *RecordController) Update(c echo.Context) error {
 // @Summary      Delete a record
 // @Tags         records
 // @Param        id path int true "Delete Record ID"
-// @Success      204  {object}  utils.ResponseBody{success=bool}
-// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Success      204
+// @Failure      400  {object}  utils.ErrorMessage
+// @Failure      404  {object}  utils.ErrorMessage
+// @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [delete]
 func (ctrl *RecordController) Delete(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -134,10 +128,10 @@ func (ctrl *RecordController) Delete(c echo.Context) error {
 // @Summary      Get a record by ID
 // @Tags         records
 // @Param        id path int true "Get Record ID"
-// @Success      200  {object}  utils.ResponseBody{success=bool,data=models.Record}
-// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Success      200  {object}  models.Record
+// @Failure      400  {object}  utils.ErrorMessage
+// @Failure      404  {object}  utils.ErrorMessage
+// @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [get]
 func (ctrl *RecordController) Get(c echo.Context) error {
 	ctx := c.Request().Context()
@@ -166,11 +160,11 @@ func (ctrl *RecordController) Get(c echo.Context) error {
 // @Description  Currently only supports search by displayName.
 // @Tags         records
 // @Param        displayName query string false "Search by displayName"
-// @Param        pageNum     query int    false "Page number, default is 0)"
-// @Param        pageSize    query int    false "Page size, default is 10"
-// @Success      200  {object}  utils.ResponseBody{success=bool,data=[]models.Record}
-// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
-// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Param        pageNum     query int    false "Page number (default is 0)"
+// @Param        pageSize    query int    false "Page size (default is 10)"
+// @Success      200  {object}  []models.Record
+// @Failure      400  {object}  utils.ErrorMessage
+// @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records [get]
 func (ctrl *RecordController) Query(c echo.Context) error {
 	ctx := c.Request().Context()

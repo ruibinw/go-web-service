@@ -35,13 +35,13 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "Page number",
+                        "description": "Page number (default is 0)",
                         "name": "pageNum",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "Page size",
+                        "description": "Page size (default is 10)",
                         "name": "pageSize",
                         "in": "query"
                     }
@@ -50,67 +50,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/models.Record"
-                                            }
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Record"
+                            }
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     }
                 }
@@ -141,64 +96,19 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.Record"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/models.Record"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     }
                 }
@@ -223,85 +133,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.Record"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/models.Record"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     }
                 }
@@ -339,85 +189,25 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/models.Record"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/models.Record"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     }
                 }
@@ -438,84 +228,24 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
+                        "description": "No Content"
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/utils.ResponseBody"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string"
-                                        },
-                                        "success": {
-                                            "type": "boolean"
-                                        }
-                                    }
-                                }
-                            ]
+                            "$ref": "#/definitions/utils.ErrorMessage"
                         }
                     }
                 }
@@ -548,7 +278,6 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "display_name",
-                "id",
                 "url"
             ],
             "properties": {
@@ -559,10 +288,6 @@ const docTemplate = `{
                 "display_name": {
                     "type": "string",
                     "example": "name"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
                 },
                 "url": {
                     "type": "string",
@@ -607,13 +332,11 @@ const docTemplate = `{
                 }
             }
         },
-        "utils.ResponseBody": {
+        "utils.ErrorMessage": {
             "type": "object",
             "properties": {
-                "data": {},
-                "errors": {},
-                "success": {
-                    "type": "boolean"
+                "errors": {
+                    "type": "string"
                 }
             }
         }
