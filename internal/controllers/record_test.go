@@ -303,8 +303,8 @@ func newRecord(id int64, url string, name string, desc string) *models.Record {
 		Url:         url,
 		DisplayName: name,
 		Description: desc,
-		CreatedTime: time.Time{},
-		UpdatedTime: time.Time{},
+		CreatedTime: time.Now(),
+		UpdatedTime: time.Now(),
 	}
 }
 
@@ -340,6 +340,7 @@ func setUpEchoHttpTest(tc testCase) (echo.Context, *httptest.ResponseRecorder, s
 	ctx := e.NewContext(req, rec)
 	if len(tc.pathParams) > 0 {
 		param := strings.Split(tc.pathParams, ":")
+		ctx.SetPath("/records/:" + param[0])
 		ctx.SetParamNames(param[0])
 		ctx.SetParamValues(param[1])
 	}

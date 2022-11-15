@@ -2,6 +2,7 @@ package main
 
 import (
 	"git.epam.com/ryan_wang/go-web-service/config"
+	_ "git.epam.com/ryan_wang/go-web-service/docs"
 	"git.epam.com/ryan_wang/go-web-service/internal/controllers"
 	"git.epam.com/ryan_wang/go-web-service/internal/models"
 	"git.epam.com/ryan_wang/go-web-service/internal/repositories"
@@ -16,15 +17,13 @@ import (
 	"net/http"
 )
 
-// @title Go Web Service
-// @version 1.0
-// @description A simple REST Web service that supports CRUD operations.
-
-// @contact.name Ryan_Wang
-// @contact.email Ryan_Wang@epam.com
-
-// @host localhost:8080
-// @BasePath /
+// @title 			Go Web Service
+// @version 		1.0
+// @description 	A simple REST Web service that supports CRUD operations.
+// @contact.name 	Ryan_Wang
+// @contact.email 	Ryan_Wang@epam.com
+// @host 			localhost:8090
+// @BasePath 		/
 func main() {
 	cfg := config.GetConfig()
 	db := NewDBConnection(cfg)
@@ -35,6 +34,7 @@ func main() {
 	server := echo.New()
 	server.Validator = utils.NewRequestValidator(validator.New())
 	server.Use(middleware.Logger()) //to log request info
+	server.Use(middleware.CORS())   //to allow cross-domain access
 
 	server.GET("/", index)
 	server.GET("/swagger/*", echoSwagger.WrapHandler)

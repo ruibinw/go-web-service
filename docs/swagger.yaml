@@ -1,5 +1,39 @@
 basePath: /
 definitions:
+  dto.CreateRecordRequest:
+    properties:
+      description:
+        example: This is description
+        type: string
+      display_name:
+        example: name
+        type: string
+      url:
+        example: /url
+        type: string
+    required:
+    - display_name
+    - url
+    type: object
+  dto.UpdateRecordRequest:
+    properties:
+      description:
+        example: This is a description
+        type: string
+      display_name:
+        example: name
+        type: string
+      id:
+        example: 1
+        type: integer
+      url:
+        example: /url
+        type: string
+    required:
+    - display_name
+    - id
+    - url
+    type: object
   models.Record:
     properties:
       created_time:
@@ -36,7 +70,7 @@ definitions:
       success:
         type: boolean
     type: object
-host: localhost:8080
+host: localhost:8090
 info:
   contact:
     email: Ryan_Wang@epam.com
@@ -46,16 +80,72 @@ info:
   version: "1.0"
 paths:
   /records:
+    get:
+      description: |-
+        Returns a page of records with specified page number and size.<br>
+        Currently only supports search by displayName.
+      parameters:
+      - description: Search by displayName
+        in: query
+        name: displayName
+        type: string
+      - description: Page number
+        in: query
+        name: pageNum
+        type: integer
+      - description: Page size
+        in: query
+        name: pageSize
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Record'
+                  type: array
+                success:
+                  type: boolean
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: Get records list with pagination and search
+      tags:
+      - records
     post:
       consumes:
       - application/json
       parameters:
-      - description: Request Body
+      - description: Create Record Request
         in: body
         name: record
         required: true
         schema:
-          type: object
+          $ref: '#/definitions/dto.CreateRecordRequest'
       produces:
       - application/json
       responses:
@@ -93,6 +183,180 @@ paths:
                   type: boolean
               type: object
       summary: Create a record
+      tags:
+      - records
+  /records/{id}:
+    delete:
+      parameters:
+      - description: Delete Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "204":
+          description: No Content
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                success:
+                  type: boolean
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: Delete a record
+      tags:
+      - records
+    get:
+      parameters:
+      - description: Get Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Record'
+                success:
+                  type: boolean
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: Get a record by ID
+      tags:
+      - records
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update Record ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update Record Request
+        in: body
+        name: record
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateRecordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Record'
+                success:
+                  type: boolean
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: Update a record
       tags:
       - records
 swagger: "2.0"

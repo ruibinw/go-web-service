@@ -38,7 +38,7 @@ func successResponse(c echo.Context, status int, data any) error {
 // @Tags         records
 // @Accept       json
 // @Produce      json
-// @Param        record   body   object  true  "Request Body"
+// @Param        record body dto.CreateRecordRequest true "Create Record Request"
 // @Success      201  {object}  utils.ResponseBody{success=bool,data=models.Record}
 // @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
 // @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
@@ -64,6 +64,18 @@ func (ctrl *RecordController) Create(c echo.Context) error {
 	return successResponse(c, http.StatusCreated, record)
 }
 
+// Update godoc
+// @Summary      Update a record
+// @Tags         records
+// @Accept       json
+// @Produce      json
+// @Param        id path int true "Update Record ID"
+// @Param        record body dto.UpdateRecordRequest true "Update Record Request"
+// @Success      200  {object}  utils.ResponseBody{success=bool,data=models.Record}
+// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Router       /records/{id} [put]
 func (ctrl *RecordController) Update(c echo.Context) error {
 	ctx := c.Request().Context()
 	var req dto.UpdateRecordRequest
@@ -89,6 +101,15 @@ func (ctrl *RecordController) Update(c echo.Context) error {
 	return successResponse(c, http.StatusOK, record)
 }
 
+// Delete godoc
+// @Summary      Delete a record
+// @Tags         records
+// @Param        id path int true "Delete Record ID"
+// @Success      204  {object}  utils.ResponseBody{success=bool}
+// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Router       /records/{id} [delete]
 func (ctrl *RecordController) Delete(c echo.Context) error {
 	ctx := c.Request().Context()
 	var req dto.DeleteRecordRequest
@@ -109,6 +130,15 @@ func (ctrl *RecordController) Delete(c echo.Context) error {
 	return successResponse(c, http.StatusNoContent, nil)
 }
 
+// Get godoc
+// @Summary      Get a record by ID
+// @Tags         records
+// @Param        id path int true "Get Record ID"
+// @Success      200  {object}  utils.ResponseBody{success=bool,data=models.Record}
+// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      404  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Router       /records/{id} [get]
 func (ctrl *RecordController) Get(c echo.Context) error {
 	ctx := c.Request().Context()
 	var req dto.GetRecordRequest
@@ -130,6 +160,18 @@ func (ctrl *RecordController) Get(c echo.Context) error {
 	return successResponse(c, http.StatusOK, record)
 }
 
+// Query godoc
+// @Summary      Get records list with pagination and search
+// @Description  Returns a page of records with specified page number and size.<br>
+// @Description  Currently only supports search by displayName.
+// @Tags         records
+// @Param        displayName query string false "Search by displayName"
+// @Param        pageNum     query int    false "Page number, default is 0)"
+// @Param        pageSize    query int    false "Page size, default is 10"
+// @Success      200  {object}  utils.ResponseBody{success=bool,data=[]models.Record}
+// @Failure      400  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Failure      500  {object}  utils.ResponseBody{success=bool,errors=string}
+// @Router       /records [get]
 func (ctrl *RecordController) Query(c echo.Context) error {
 	ctx := c.Request().Context()
 	var req dto.QueryRecordRequest
