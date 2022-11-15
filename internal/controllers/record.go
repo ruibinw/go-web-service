@@ -2,11 +2,11 @@ package controllers
 
 import (
 	"errors"
-	"git.epam.com/ryan_wang/crud-demo/internal/dto"
-	customErrors "git.epam.com/ryan_wang/crud-demo/internal/errors"
-	"git.epam.com/ryan_wang/crud-demo/internal/models"
-	"git.epam.com/ryan_wang/crud-demo/internal/services"
-	"git.epam.com/ryan_wang/crud-demo/internal/utils"
+	"git.epam.com/ryan_wang/go-web-service/internal/dto"
+	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/services"
+	"git.epam.com/ryan_wang/go-web-service/internal/utils"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

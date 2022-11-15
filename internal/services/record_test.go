@@ -2,9 +2,9 @@ package services
 
 import (
 	"context"
-	customErrors "git.epam.com/ryan_wang/crud-demo/internal/errors"
-	"git.epam.com/ryan_wang/crud-demo/internal/models"
-	"git.epam.com/ryan_wang/crud-demo/internal/repositories/mocks"
+	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/repositories/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"testing"

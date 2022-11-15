@@ -42,10 +42,7 @@ info:
     email: Ryan_Wang@epam.com
     name: Ryan_Wang
   description: A simple REST Web service that supports CRUD operations.
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  title: CRUD Demo in Go
+  title: Go Web Service
   version: "1.0"
 paths:
   /records:

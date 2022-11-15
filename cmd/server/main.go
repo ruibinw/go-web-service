@@ -1,22 +1,22 @@
 package main
 
 import (
-	"fmt"
-	"git.epam.com/ryan_wang/crud-demo/config"
-	"git.epam.com/ryan_wang/crud-demo/internal/controllers"
-	"git.epam.com/ryan_wang/crud-demo/internal/repositories"
-	"git.epam.com/ryan_wang/crud-demo/internal/services"
-	"git.epam.com/ryan_wang/crud-demo/internal/utils"
+	"git.epam.com/ryan_wang/go-web-service/config"
+	"git.epam.com/ryan_wang/go-web-service/internal/controllers"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/repositories"
+	"git.epam.com/ryan_wang/go-web-service/internal/services"
+	"git.epam.com/ryan_wang/go-web-service/internal/utils"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"net/http"
 )
 
-// @title CRUD Demo in Go
+// @title Go Web Service
 // @version 1.0
 // @description A simple REST Web service that supports CRUD operations.
 
@@ -49,17 +49,10 @@ func main() {
 }
 
 func NewDBConnection(cfg *config.Configuration) *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		cfg.Database.UserName,
-		cfg.Database.Password,
-		cfg.Database.Host,
-		cfg.Database.Port,
-		cfg.Database.Name,
-	)
-	db, err := gorm.Open(mysql.Open(dsn))
-	if err != nil {
-		panic(err)
-	}
+	//open database connection
+	db, _ := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	//create Record table
+	db.AutoMigrate(&models.Record{})
 	return db
 }
 

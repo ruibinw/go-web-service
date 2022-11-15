@@ -14,10 +14,6 @@ const docTemplate = `{
             "name": "Ryan_Wang",
             "email": "Ryan_Wang@epam.com"
         },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -171,7 +167,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "CRUD Demo in Go",
+	Title:            "Go Web Service",
 	Description:      "A simple REST Web service that supports CRUD operations.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

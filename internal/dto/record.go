@@ -1,7 +1,7 @@
 package dto
 
 import (
-	"git.epam.com/ryan_wang/crud-demo/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
 )
 
 type CreateRecordRequest struct {

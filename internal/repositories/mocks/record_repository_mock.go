@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	models "git.epam.com/ryan_wang/crud-demo/internal/models"
+	models "git.epam.com/ryan_wang/go-web-service/internal/models"
 	gomock "github.com/golang/mock/gomock"
 )
 

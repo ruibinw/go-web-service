@@ -22,7 +22,7 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-    image: crud-demo/webapi:latest
+    image: go-web-service/api-server:latest
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     environment:

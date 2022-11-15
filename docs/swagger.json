@@ -2,14 +2,10 @@
     "swagger": "2.0",
     "info": {
         "description": "A simple REST Web service that supports CRUD operations.",
-        "title": "CRUD Demo in Go",
+        "title": "Go Web Service",
         "contact": {
             "name": "Ryan_Wang",
             "email": "Ryan_Wang@epam.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "1.0"
     },

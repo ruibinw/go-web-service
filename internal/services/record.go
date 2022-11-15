@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
-	"git.epam.com/ryan_wang/crud-demo/internal/models"
-	"git.epam.com/ryan_wang/crud-demo/internal/repositories"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/repositories"
 	"time"
 )
 

@@ -2,8 +2,8 @@ package repositories
 
 import (
 	"context"
-	customErrors "git.epam.com/ryan_wang/crud-demo/internal/errors"
-	"git.epam.com/ryan_wang/crud-demo/internal/models"
+	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
 	"gorm.io/gorm"
 )
 
