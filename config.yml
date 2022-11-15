@@ -1,0 +1,9 @@
+database:
+  host: localhost
+  port: 3306
+  username: root
+  password:
+  db-name: crud_demo
+
+server:
+  port: 8090

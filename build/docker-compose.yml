@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  database:
+    image: mysql:8.0.28
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=crud_demo
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
+    networks:
+      backend:
+        aliases:
+          - "database"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+
+  webapi:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    image: crud-demo/webapi:latest
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - DB_HOST=database
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      backend:
+
+networks:
+  backend:
+    driver: bridge

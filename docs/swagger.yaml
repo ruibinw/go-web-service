@@ -1,0 +1,101 @@
+basePath: /
+definitions:
+  models.Record:
+    properties:
+      created_time:
+        description: CreatedTime of a record
+        example: "2022-10-29T18:31:22.378373+08:00"
+        format: date-time
+        type: string
+      description:
+        description: Description of a record
+        example: A book to learn Go
+        type: string
+      display_name:
+        description: DisplayName of a record
+        example: Learning Go
+        type: string
+      id:
+        description: ID of a record
+        example: 1
+        type: integer
+      updated_time:
+        description: UpdatedTime of a record
+        example: "2022-10-29T18:31:22.378373+08:00"
+        format: date-time
+        type: string
+      url:
+        description: Url of a record
+        example: /record/learning-go
+        type: string
+    type: object
+  utils.ResponseBody:
+    properties:
+      data: {}
+      errors: {}
+      success:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: Ryan_Wang@epam.com
+    name: Ryan_Wang
+  description: A simple REST Web service that supports CRUD operations.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: CRUD Demo in Go
+  version: "1.0"
+paths:
+  /records:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request Body
+        in: body
+        name: record
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Record'
+                success:
+                  type: boolean
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/utils.ResponseBody'
+            - properties:
+                errors:
+                  type: string
+                success:
+                  type: boolean
+              type: object
+      summary: Create a record
+      tags:
+      - records
+swagger: "2.0"

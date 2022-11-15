@@ -1,0 +1,159 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "A simple REST Web service that supports CRUD operations.",
+        "title": "CRUD Demo in Go",
+        "contact": {
+            "name": "Ryan_Wang",
+            "email": "Ryan_Wang@epam.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/records": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "records"
+                ],
+                "summary": "Create a record",
+                "parameters": [
+                    {
+                        "description": "Request Body",
+                        "name": "record",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/models.Record"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "errors": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/utils.ResponseBody"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "errors": {
+                                            "type": "string"
+                                        },
+                                        "success": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Record": {
+            "type": "object",
+            "properties": {
+                "created_time": {
+                    "description": "CreatedTime of a record",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-10-29T18:31:22.378373+08:00"
+                },
+                "description": {
+                    "description": "Description of a record",
+                    "type": "string",
+                    "example": "A book to learn Go"
+                },
+                "display_name": {
+                    "description": "DisplayName of a record",
+                    "type": "string",
+                    "example": "Learning Go"
+                },
+                "id": {
+                    "description": "ID of a record",
+                    "type": "integer",
+                    "example": 1
+                },
+                "updated_time": {
+                    "description": "UpdatedTime of a record",
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2022-10-29T18:31:22.378373+08:00"
+                },
+                "url": {
+                    "description": "Url of a record",
+                    "type": "string",
+                    "example": "/record/learning-go"
+                }
+            }
+        },
+        "utils.ResponseBody": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "errors": {},
+                "success": {
+                    "type": "boolean"
+                }
+            }
+        }
+    }
+}
