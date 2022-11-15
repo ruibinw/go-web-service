@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"git.epam.com/ryan_wang/go-web-service/config"
 	_ "git.epam.com/ryan_wang/go-web-service/docs"
 	"git.epam.com/ryan_wang/go-web-service/internal/controllers"
@@ -12,8 +11,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"net/http"
 )
 
@@ -26,7 +23,7 @@ import (
 // @BasePath 		/
 func main() {
 	cfg := config.GetConfig()
-	db := NewDBConnection(cfg)
+	db := cfg.OpenDBConnection()
 	recordRepo := repositories.NewRecordRepository(db)
 	recordSrv := services.NewRecordService(recordRepo)
 	recordCtrl := controllers.NewRecordController(recordSrv)
@@ -46,21 +43,6 @@ func main() {
 	server.GET("/records", recordCtrl.Query)
 
 	server.Logger.Fatal(server.Start(":" + cfg.Server.Port))
-}
-
-func NewDBConnection(cfg *config.Configuration) *gorm.DB {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		cfg.Database.UserName,
-		cfg.Database.Password,
-		cfg.Database.Host,
-		cfg.Database.Port,
-		cfg.Database.Name,
-	)
-	db, err := gorm.Open(mysql.Open(dsn))
-	if err != nil {
-		panic(err)
-	}
-	return db
 }
 
 func index(c echo.Context) error {
