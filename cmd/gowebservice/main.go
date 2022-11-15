@@ -25,7 +25,7 @@ import (
 // @host 			localhost:8090
 // @BasePath 		/
 func main() {
-	cfg := config.GetConfig()
+	cfg := config.LoadConfig()
 	db := NewDBConnection(cfg)
 	recordRepo := repositories.NewRecordRepository(db)
 	recordSrv := services.NewRecordService(recordRepo)

@@ -20,7 +20,7 @@ type Configuration struct {
 	} `yaml:"database"`
 }
 
-func GetConfig() *Configuration {
+func LoadConfig() *Configuration {
 	var config Configuration
 	configFile := getSourcePath() + "/../config.yml"
 	if err := cleanenv.ReadConfig(configFile, &config); err != nil {
