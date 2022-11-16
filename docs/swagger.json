@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "A simple REST Web service that supports CRUD operations.",
+        "description": "A simple REST Web service written in Go that supports CRUD operations.",
         "title": "Go Web Service",
         "contact": {
             "name": "Ryan_Wang",
@@ -9,7 +9,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8090",
+    "host": "localhost:8080",
     "basePath": "/",
     "paths": {
         "/records": {

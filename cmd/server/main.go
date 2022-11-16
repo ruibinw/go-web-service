@@ -19,7 +19,7 @@ import (
 // @description 	A simple REST Web service written in Go that supports CRUD operations.
 // @contact.name 	Ryan_Wang
 // @contact.email 	Ryan_Wang@epam.com
-// @host 			localhost:8090
+// @host 			localhost:8080
 // @BasePath 		/
 func main() {
 	cfg := config.GetConfig()

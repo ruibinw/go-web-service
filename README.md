@@ -1,4 +1,4 @@
-# CRUD Demo in Go
+#  Go Web Service
 A simple REST Web service written in Go that supports CRUD operations.
 
 ## Technology Stack
@@ -12,18 +12,18 @@ A simple REST Web service written in Go that supports CRUD operations.
 ## Unit Testing
 To run unit tests:
 ```shell
-go test ./..
+go test ./...
 ```
 
 
 ## Building and Deployment
-### Build docker images
+### Build docker image
 ```shell
-docker compose -f ./build/docker-compose.yml create
+docker build -t go-web-service/api-server:latest .
 ```
 ### Start up services
 ```shell
-docker compose -f ./build/docker-compose.yml up -d
+docker-compose -f ./build/docker-compose.yml up -d
 ```
 
 Default ports, 8080 and 3306, are used for the web api and database, respectively.
@@ -31,12 +31,12 @@ Default ports, 8080 and 3306, are used for the web api and database, respectivel
 To specify ports for the web api (SERVER_PORT) and database (DB_PORT):
 ```shell
 # Unix Shell
-DB_PORT=port1 SERVER_PORT=port2 docker compose -f ./build/docker-compose.yml up
+DB_PORT=port1 SERVER_PORT=port2 docker-compose -f ./build/docker-compose.yml up
 
 # Windows CMD
 set DB_PORT=port1
 set SERVER_PORT=port2 
-docker compose -f ./build/docker-compose.yml up -d
+docker-compose -f ./build/docker-compose.yml up -d
 ```
 
 

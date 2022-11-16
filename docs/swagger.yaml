@@ -64,12 +64,12 @@ definitions:
       errors:
         type: string
     type: object
-host: localhost:8090
+host: localhost:8080
 info:
   contact:
     email: Ryan_Wang@epam.com
     name: Ryan_Wang
-  description: A simple REST Web service that supports CRUD operations.
+  description: A simple REST Web service written in Go that supports CRUD operations.
   title: Go Web Service
   version: "1.0"
 paths:
