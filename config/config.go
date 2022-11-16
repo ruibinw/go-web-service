@@ -9,8 +9,11 @@ import (
 	"runtime"
 )
 
+var config *Configuration
+
 type Configuration struct {
 	Server struct {
+		Host string `yaml:"host"    env:"SERVER_HOST"    env-default:"localhost"`
 		Port string `yaml:"port"    env:"SERVER_PORT"    env-default:"8080"`
 	} `yaml:"server"`
 
@@ -21,15 +24,21 @@ type Configuration struct {
 		Password string `yaml:"password" env:"DB_PASSWORD"`
 		Name     string `yaml:"db-name"  env:"DB_NAME"`
 	} `yaml:"database"`
+
+	Swagger struct {
+		Host string `yaml:"host"    env:"SWAGGER_HOST"    env-default:""`
+	} `yaml:"swagger"`
 }
 
 func GetConfig() *Configuration {
-	var config Configuration
-	configFile := getSourcePath() + "/../config.yml"
-	if err := cleanenv.ReadConfig(configFile, &config); err != nil {
-		panic(err)
+	if config == nil {
+		config = &Configuration{}
+		configFile := getSourcePath() + "/../config.yml"
+		if err := cleanenv.ReadConfig(configFile, config); err != nil {
+			panic(err)
+		}
 	}
-	return &config
+	return config
 }
 
 func getSourcePath() string {
@@ -37,7 +46,8 @@ func getSourcePath() string {
 	return path.Dir(filename)
 }
 
-func (cfg *Configuration) OpenDBConnection() *gorm.DB {
+func NewDBConnection() *gorm.DB {
+	cfg := GetConfig()
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		cfg.Database.UserName,
 		cfg.Database.Password,
@@ -50,5 +60,4 @@ func (cfg *Configuration) OpenDBConnection() *gorm.DB {
 		panic(err)
 	}
 	return db
-
 }
