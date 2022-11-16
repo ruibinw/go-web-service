@@ -2,12 +2,13 @@
 A simple REST Web service written in Go that supports CRUD operations.
 
 ## Technology Stack
-- Language:         Go 1.19
-- HTTP Framework:   Echo
-- ORM Framework:    GORM
-- Unit Testing:     Testify+GoMock
-- Database:         MySQL
-- Containerization: Docker
+- Language:             Go 1.19
+- Web Framework:        Echo
+- ORM Framework:        GORM
+- Dependency Injection: Wire
+- Unit Testing:         Testify+GoMock
+- Database:             MySQL
+- Containerization:     Docker
 
 ## Unit Testing
 To run unit tests:
