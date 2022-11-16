@@ -15,15 +15,12 @@ type Configuration struct {
 	} `yaml:"server"`
 
 	Database struct {
-		Which    string `yaml:"d"     env:"DB_HOST"      env-default:"localhost"`
 		Host     string `yaml:"host"     env:"DB_HOST"      env-default:"localhost"`
 		Port     string `yaml:"port"     env:"DB_PORT"      env-default:"3306"`
 		UserName string `yaml:"username" env:"DB_USERNAME"  env-default:"root"`
 		Password string `yaml:"password" env:"DB_PASSWORD"`
 		Name     string `yaml:"db-name"  env:"DB_NAME"`
 	} `yaml:"database"`
-
-	Profile string `yaml:"profile" env:"ACTIVE_PROFILE" env-default:"dev"`
 }
 
 func GetConfig() *Configuration {
