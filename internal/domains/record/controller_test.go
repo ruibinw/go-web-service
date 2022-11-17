@@ -350,7 +350,7 @@ func setUpEchoHttpTest(tc testCase) (echo.Context, *httptest.ResponseRecorder, s
 		body, _ = json.Marshal(tc.expectedData)
 	}
 	if tc.expectedError != nil {
-		body, _ = json.Marshal(utils.ErrorMessage{tc.expectedError.Error()})
+		body, _ = json.Marshal(utils.ErrorMessage{Msg: tc.expectedError.Error()})
 	}
 	//adds a new line at the end of response to match with echo context encoder result
 	expectedBody := string(body) + "\n"

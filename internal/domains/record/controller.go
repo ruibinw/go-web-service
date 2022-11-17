@@ -19,7 +19,7 @@ func NewController(service Service) *Controller {
 }
 
 func errorResponse(c echo.Context, status int, err error) error {
-	return c.JSON(status, utils.ErrorMessage{err.Error()})
+	return c.JSON(status, utils.ErrorMessage{Msg: err.Error()})
 }
 
 func successResponse(c echo.Context, status int, data interface{}) error {

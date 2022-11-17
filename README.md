@@ -28,7 +28,7 @@ docker build -t go-web-service/api-server:latest .
 docker-compose -f ./build/docker-compose.yml up -d
 ```
 
-Default ports, 8080 and 3306, are used for the web api and database, respectively.
+8080 and 3306 port are used for the web api and database, by default.
 
 To specify ports for the web api (SERVER_PORT) and database (DB_PORT):
 ```shell
