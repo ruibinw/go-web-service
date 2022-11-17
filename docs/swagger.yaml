@@ -1,35 +1,5 @@
 basePath: /
 definitions:
-  dto.CreateRecordRequest:
-    properties:
-      description:
-        example: This is description
-        type: string
-      display_name:
-        example: name
-        type: string
-      url:
-        example: /url
-        type: string
-    required:
-    - display_name
-    - url
-    type: object
-  dto.UpdateRecordRequest:
-    properties:
-      description:
-        example: This is a description
-        type: string
-      display_name:
-        example: name
-        type: string
-      url:
-        example: /url
-        type: string
-    required:
-    - display_name
-    - url
-    type: object
   models.Record:
     properties:
       created_time:
@@ -58,6 +28,36 @@ definitions:
         description: Url of a record
         example: /record/learning-go
         type: string
+    type: object
+  record.CreateRecordRequest:
+    properties:
+      description:
+        example: This is description
+        type: string
+      display_name:
+        example: name
+        type: string
+      url:
+        example: /url
+        type: string
+    required:
+    - display_name
+    - url
+    type: object
+  record.UpdateRecordRequest:
+    properties:
+      description:
+        example: This is a description
+        type: string
+      display_name:
+        example: name
+        type: string
+      url:
+        example: /url
+        type: string
+    required:
+    - display_name
+    - url
     type: object
   utils.ErrorMessage:
     properties:
@@ -117,7 +117,7 @@ paths:
         name: record
         required: true
         schema:
-          $ref: '#/definitions/dto.CreateRecordRequest'
+          $ref: '#/definitions/record.CreateRecordRequest'
       produces:
       - application/json
       responses:
@@ -203,7 +203,7 @@ paths:
         name: record
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateRecordRequest'
+          $ref: '#/definitions/record.UpdateRecordRequest'
       produces:
       - application/json
       responses:

@@ -10,12 +10,13 @@ A simple REST Web service written in Go that supports CRUD operations.
 - Database:             MySQL
 - Containerization:     Docker
 
-## Unit Testing
-To run unit tests:
-```shell
-go test ./...
-```
 
+## Unit Testing
+To run unit tests for domains/record:
+```shell
+go test -v ./internal/domains/record
+```
+Note: Unit tests of repository layer use sqlite db that requires [gcc](https://gcc.gnu.org/install/binaries.html) to compile.
 
 ## Building and Deployment
 ### Build docker image

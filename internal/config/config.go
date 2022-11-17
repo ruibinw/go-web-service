@@ -33,7 +33,7 @@ type Configuration struct {
 func GetConfig() *Configuration {
 	if config == nil {
 		config = &Configuration{}
-		configFile := getSourcePath() + "/../config.yml"
+		configFile := getSourcePath() + "/../../config.yml"
 		if err := cleanenv.ReadConfig(configFile, config); err != nil {
 			panic(err)
 		}

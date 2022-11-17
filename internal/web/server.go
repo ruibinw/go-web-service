@@ -1,9 +1,9 @@
 package web
 
 import (
-	"git.epam.com/ryan_wang/go-web-service/config"
 	"git.epam.com/ryan_wang/go-web-service/docs"
-	"git.epam.com/ryan_wang/go-web-service/internal/controllers"
+	"git.epam.com/ryan_wang/go-web-service/internal/config"
+	"git.epam.com/ryan_wang/go-web-service/internal/domains/record"
 	"git.epam.com/ryan_wang/go-web-service/internal/utils"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -50,7 +50,7 @@ func (s *Server) SetupSwagger(path string) {
 	s.Router.GET(path, echoSwagger.WrapHandler)
 }
 
-func (s *Server) RegisterRecordController(ctrl *controllers.RecordController) {
+func (s *Server) RegisterRecordController(ctrl *record.Controller) {
 	s.Router.POST("/records", ctrl.Create)
 	s.Router.PUT("/records/:id", ctrl.Update)
 	s.Router.DELETE("/records/:id", ctrl.Delete)
