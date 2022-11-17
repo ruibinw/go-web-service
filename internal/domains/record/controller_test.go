@@ -1,35 +1,35 @@
-package controllers
+package record
 
 import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"git.epam.com/ryan_wang/go-web-service/internal/dto"
-	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
-	"git.epam.com/ryan_wang/go-web-service/internal/models"
-	"git.epam.com/ryan_wang/go-web-service/internal/services/mocks"
-	"git.epam.com/ryan_wang/go-web-service/internal/utils"
-	"github.com/go-playground/validator/v10"
-	"github.com/golang/mock/gomock"
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/assert"
+	"git.epam.com/ryan_wang/go-web-service/internal/domains/record/mocks"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
+
+	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
+	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"git.epam.com/ryan_wang/go-web-service/internal/utils"
+	"github.com/go-playground/validator/v10"
+	"github.com/golang/mock/gomock"
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/assert"
 )
 
 type testCase struct {
 	name                string
 	httpMethod          string
-	requestBody         any
+	requestBody         interface{}
 	pathParams          string
 	queryParams         string
 	expectedServiceCall bool
 	expectedSuccess     bool
 	expectedStatusCode  int
-	expectedData        any
+	expectedData        interface{}
 	expectedError       error
 }
 
@@ -80,7 +80,7 @@ func TestRecordController_Create(t *testing.T) {
 			}
 
 			// test target controller method and assert
-			testController := NewRecordController(mockService)
+			testController := NewController(mockService)
 			if assert.NoError(t, testController.Create(reqContext)) {
 				assert.Equal(t, tc.expectedStatusCode, responseRec.Code)
 				assert.Equal(t, expectedBody, responseRec.Body.String())
@@ -147,7 +147,7 @@ func TestRecordController_Update(t *testing.T) {
 			}
 
 			// test target controller method and assert
-			testController := NewRecordController(mockService)
+			testController := NewController(mockService)
 			if assert.NoError(t, testController.Update(reqContext)) {
 				assert.Equal(t, tc.expectedStatusCode, responseRec.Code)
 				assert.Equal(t, expectedBody, responseRec.Body.String())
@@ -191,7 +191,7 @@ func TestRecordController_Delete(t *testing.T) {
 			}
 
 			// test target controller method and assert
-			testController := NewRecordController(mockService)
+			testController := NewController(mockService)
 			if assert.NoError(t, testController.Delete(reqContext)) {
 				assert.Equal(t, tc.expectedStatusCode, responseRec.Code)
 				assert.Equal(t, expectedBody, responseRec.Body.String())
@@ -235,7 +235,7 @@ func TestRecordController_Get(t *testing.T) {
 			}
 
 			// test target controller method and assert
-			testController := NewRecordController(mockService)
+			testController := NewController(mockService)
 			if assert.NoError(t, testController.Get(reqContext)) {
 				assert.Equal(t, tc.expectedStatusCode, responseRec.Code)
 				assert.Equal(t, expectedBody, responseRec.Body.String())
@@ -288,7 +288,7 @@ func TestRecordController_Query(t *testing.T) {
 			}
 
 			// test target controller method and assert
-			testController := NewRecordController(mockService)
+			testController := NewController(mockService)
 			if assert.NoError(t, testController.Query(reqContext)) {
 				assert.Equal(t, tc.expectedStatusCode, responseRec.Code)
 				assert.Equal(t, expectedBody, responseRec.Body.String())
@@ -308,16 +308,16 @@ func newRecord(id int64, url string, name string, desc string) *models.Record {
 	}
 }
 
-func newCreateReqDto(url string, name string, desc string) *dto.CreateRecordRequest {
-	return &dto.CreateRecordRequest{
+func newCreateReqDto(url string, name string, desc string) *CreateRecordRequest {
+	return &CreateRecordRequest{
 		Url:         url,
 		DisplayName: name,
 		Description: desc,
 	}
 }
 
-func newUpdateReqDto(url string, name string, desc string) *dto.UpdateRecordRequest {
-	return &dto.UpdateRecordRequest{
+func newUpdateReqDto(url string, name string, desc string) *UpdateRecordRequest {
+	return &UpdateRecordRequest{
 		Url:         url,
 		DisplayName: name,
 		Description: desc,

@@ -88,7 +88,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.CreateRecordRequest"
+                            "$ref": "#/definitions/record.CreateRecordRequest"
                         }
                     }
                 ],
@@ -181,7 +181,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateRecordRequest"
+                            "$ref": "#/definitions/record.UpdateRecordRequest"
                         }
                     }
                 ],
@@ -253,48 +253,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "dto.CreateRecordRequest": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "url"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "This is description"
-                },
-                "display_name": {
-                    "type": "string",
-                    "example": "name"
-                },
-                "url": {
-                    "type": "string",
-                    "example": "/url"
-                }
-            }
-        },
-        "dto.UpdateRecordRequest": {
-            "type": "object",
-            "required": [
-                "display_name",
-                "url"
-            ],
-            "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "This is a description"
-                },
-                "display_name": {
-                    "type": "string",
-                    "example": "name"
-                },
-                "url": {
-                    "type": "string",
-                    "example": "/url"
-                }
-            }
-        },
         "models.Record": {
             "type": "object",
             "properties": {
@@ -329,6 +287,48 @@ const docTemplate = `{
                     "description": "Url of a record",
                     "type": "string",
                     "example": "/record/learning-go"
+                }
+            }
+        },
+        "record.CreateRecordRequest": {
+            "type": "object",
+            "required": [
+                "display_name",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "This is description"
+                },
+                "display_name": {
+                    "type": "string",
+                    "example": "name"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "/url"
+                }
+            }
+        },
+        "record.UpdateRecordRequest": {
+            "type": "object",
+            "required": [
+                "display_name",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "This is a description"
+                },
+                "display_name": {
+                    "type": "string",
+                    "example": "name"
+                },
+                "url": {
+                    "type": "string",
+                    "example": "/url"
                 }
             }
         },

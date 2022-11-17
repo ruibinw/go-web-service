@@ -1,30 +1,22 @@
-package services
+package record
 
 import (
 	"context"
+	"git.epam.com/ryan_wang/go-web-service/internal/domains/record/mocks"
 	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
 	"git.epam.com/ryan_wang/go-web-service/internal/models"
-	"git.epam.com/ryan_wang/go-web-service/internal/repositories/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
 
-func newRecord(name, url, desc string) *models.Record {
-	return &models.Record{
-		DisplayName: name,
-		Url:         url,
-		Description: desc,
-	}
-}
-
 func TestRecordService_Create(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
-	toCreate := newRecord("name1", "url1", "description1")
+	toCreate := newRecordForServiceTest("name1", "url1", "description1")
 	mockRepo.EXPECT().Create(ctx, toCreate).Return(toCreate, nil)
 
 	created, err := testService.Create(ctx, toCreate)
@@ -35,10 +27,10 @@ func TestRecordService_Create(t *testing.T) {
 
 func TestRecordService_Update(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
-	toUpdate := newRecord("name1", "url1", "description1")
+	toUpdate := newRecordForServiceTest("name1", "url1", "description1")
 	createdTime := time.Now().Add(time.Duration(-1) * time.Hour)
 	toUpdate.ID = 1
 	toUpdate.CreatedTime = createdTime
@@ -54,10 +46,10 @@ func TestRecordService_Update(t *testing.T) {
 
 func TestRecordService_Get(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
-	toGet := newRecord("name1", "url1", "description1")
+	toGet := newRecordForServiceTest("name1", "url1", "description1")
 	toGet.ID = 1
 
 	//to get existing record
@@ -76,10 +68,10 @@ func TestRecordService_Get(t *testing.T) {
 
 func TestRecordServiceImpl_QueryByDisplayName(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
-	toGet := []*models.Record{newRecord("name1", "url1", "description1")}
+	toGet := []*models.Record{newRecordForServiceTest("name1", "url1", "description1")}
 	mockRepo.EXPECT().Query(ctx, "name1", 0, 10).Return(toGet, nil)
 	result, err := testService.Query(ctx, "name1", 0, 10)
 	assert.NoError(t, err)
@@ -88,15 +80,15 @@ func TestRecordServiceImpl_QueryByDisplayName(t *testing.T) {
 
 func TestRecordServiceImpl_QueryWithPagination(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
 	toGet := []*models.Record{
-		newRecord("name1", "/url1", "description1"),
-		newRecord("name2_go", "/url2", "description2"),
-		newRecord("name3", "/url3", "description3"),
-		newRecord("name4", "/url4", "description4"),
-		newRecord("name5_golang", "/url5", "description5"),
+		newRecordForServiceTest("name1", "/url1", "description1"),
+		newRecordForServiceTest("name2_go", "/url2", "description2"),
+		newRecordForServiceTest("name3", "/url3", "description3"),
+		newRecordForServiceTest("name4", "/url4", "description4"),
+		newRecordForServiceTest("name5_golang", "/url5", "description5"),
 	}
 	mockRepo.EXPECT().Query(ctx, "", 0, 5).Return(toGet, nil)
 	result, err := testService.Query(ctx, "", 0, 5)
@@ -106,7 +98,7 @@ func TestRecordServiceImpl_QueryWithPagination(t *testing.T) {
 
 func TestRecordServiceImpl_Delete(t *testing.T) {
 	mockRepo := mocks.NewMockRecordRepository(gomock.NewController(t))
-	testService := NewRecordService(mockRepo)
+	testService := NewService(mockRepo)
 	ctx := context.Background()
 
 	toDelete := &models.Record{ID: 1}
@@ -122,4 +114,12 @@ func TestRecordServiceImpl_Delete(t *testing.T) {
 	mockRepo.EXPECT().Get(ctx, toDelete.ID).Return(nil, expectedErr)
 	err = testService.Delete(ctx, toDelete.ID)
 	assert.Equal(t, expectedErr, err)
+}
+
+func newRecordForServiceTest(name, url, desc string) *models.Record {
+	return &models.Record{
+		DisplayName: name,
+		Url:         url,
+		Description: desc,
+	}
 }

@@ -2,12 +2,13 @@ package utils
 
 import (
 	"errors"
-	"github.com/go-playground/validator/v10"
 	"strings"
+
+	"github.com/go-playground/validator/v10"
 )
 
 type Validator interface {
-	Validate(i any) error
+	Validate(i interface{}) error
 }
 
 type RequestValidator struct {
@@ -18,7 +19,7 @@ func NewRequestValidator(v *validator.Validate) Validator {
 	return &RequestValidator{validator: v}
 }
 
-func (s RequestValidator) Validate(i any) error {
+func (s RequestValidator) Validate(i interface{}) error {
 	if err := s.validator.Struct(i); err != nil {
 		return newValidationDetailsError(err)
 	}

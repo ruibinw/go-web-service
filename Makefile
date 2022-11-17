@@ -1,9 +1,14 @@
-unit-tests:
-	go test ./...
+build:
+	go build .
 
-docker-compose:
-	docker compose -f ./build/docker-compose.yml build
-	docker compose -f ./build/docker-compose.yml up
+test:
+	go test -v ./internal/domains/record
 
-api-docs:
-	swag i --dir cmd/server,internal/controllers,internal/models,internal/dto,internal/utils
+build-docker:
+	docker build -t go-web-service/api-server:latest .
+
+run-docker:
+	docker-compose -f ./build/docker-compose.yml up
+
+apidocs:
+	swag i --dir ./,internal/domains/record,internal/models,internal/utils

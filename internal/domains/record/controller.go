@@ -1,29 +1,28 @@
-package controllers
+package record
 
 import (
 	"errors"
-	"git.epam.com/ryan_wang/go-web-service/internal/dto"
+	"net/http"
+
 	customErrors "git.epam.com/ryan_wang/go-web-service/internal/errors"
 	"git.epam.com/ryan_wang/go-web-service/internal/models"
-	"git.epam.com/ryan_wang/go-web-service/internal/services"
 	"git.epam.com/ryan_wang/go-web-service/internal/utils"
 	"github.com/labstack/echo/v4"
-	"net/http"
 )
 
-type RecordController struct {
-	service services.RecordService
+type Controller struct {
+	service Service
 }
 
-func NewRecordController(service services.RecordService) *RecordController {
-	return &RecordController{service: service}
+func NewController(service Service) *Controller {
+	return &Controller{service: service}
 }
 
 func errorResponse(c echo.Context, status int, err error) error {
 	return c.JSON(status, utils.ErrorMessage{err.Error()})
 }
 
-func successResponse(c echo.Context, status int, data any) error {
+func successResponse(c echo.Context, status int, data interface{}) error {
 	return c.JSON(status, data)
 }
 
@@ -32,14 +31,14 @@ func successResponse(c echo.Context, status int, data any) error {
 // @Tags         records
 // @Accept       json
 // @Produce      json
-// @Param        record body dto.CreateRecordRequest true "Create Record Request"
+// @Param        record body record.CreateRecordRequest true "Create Record Request"
 // @Success      201  {object}  models.Record
 // @Failure      400  {object}  utils.ErrorMessage
 // @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records [post]
-func (ctrl *RecordController) Create(c echo.Context) error {
+func (ctrl *Controller) Create(c echo.Context) error {
 	ctx := c.Request().Context()
-	var req dto.CreateRecordRequest
+	var req CreateRecordRequest
 	var record *models.Record
 	var err error
 
@@ -64,15 +63,15 @@ func (ctrl *RecordController) Create(c echo.Context) error {
 // @Accept       json
 // @Produce      json
 // @Param        id path int true "Update Record ID"
-// @Param        record body dto.UpdateRecordRequest true "Update Record Request"
+// @Param        record body record.UpdateRecordRequest true "Update Record Request"
 // @Success      200  {object}  models.Record
 // @Failure      400  {object}  utils.ErrorMessage
 // @Failure      404  {object}  utils.ErrorMessage
 // @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [put]
-func (ctrl *RecordController) Update(c echo.Context) error {
+func (ctrl *Controller) Update(c echo.Context) error {
 	ctx := c.Request().Context()
-	var req dto.UpdateRecordRequest
+	var req UpdateRecordRequest
 	var record *models.Record
 	var err error
 
@@ -104,9 +103,9 @@ func (ctrl *RecordController) Update(c echo.Context) error {
 // @Failure      404  {object}  utils.ErrorMessage
 // @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [delete]
-func (ctrl *RecordController) Delete(c echo.Context) error {
+func (ctrl *Controller) Delete(c echo.Context) error {
 	ctx := c.Request().Context()
-	var req dto.DeleteRecordRequest
+	var req DeleteRecordRequest
 	var err error
 
 	if err = c.Bind(&req); err != nil {
@@ -133,9 +132,9 @@ func (ctrl *RecordController) Delete(c echo.Context) error {
 // @Failure      404  {object}  utils.ErrorMessage
 // @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records/{id} [get]
-func (ctrl *RecordController) Get(c echo.Context) error {
+func (ctrl *Controller) Get(c echo.Context) error {
 	ctx := c.Request().Context()
-	var req dto.GetRecordRequest
+	var req GetRecordRequest
 	var record *models.Record
 	var err error
 
@@ -166,9 +165,9 @@ func (ctrl *RecordController) Get(c echo.Context) error {
 // @Failure      400  {object}  utils.ErrorMessage
 // @Failure      500  {object}  utils.ErrorMessage
 // @Router       /records [get]
-func (ctrl *RecordController) Query(c echo.Context) error {
+func (ctrl *Controller) Query(c echo.Context) error {
 	ctx := c.Request().Context()
-	var req dto.QueryRecordRequest
+	var req QueryRecordRequest
 	var records []*models.Record
 	var err error
 

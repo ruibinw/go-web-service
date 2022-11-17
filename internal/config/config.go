@@ -1,9 +1,9 @@
 package config
 
 import (
-	"git.epam.com/ryan_wang/go-web-service/internal/models"
+	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"path"
 	"runtime"
@@ -33,7 +33,7 @@ type Configuration struct {
 func GetConfig() *Configuration {
 	if config == nil {
 		config = &Configuration{}
-		configFile := getSourcePath() + "/../config.yml"
+		configFile := getSourcePath() + "/../../config.yml"
 		if err := cleanenv.ReadConfig(configFile, config); err != nil {
 			panic(err)
 		}
@@ -47,9 +47,17 @@ func getSourcePath() string {
 }
 
 func NewDBConnection() *gorm.DB {
-	//open database connection
-	db, _ := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
-	//create Record table
-	db.AutoMigrate(&models.Record{})
+	cfg := GetConfig()
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		cfg.Database.UserName,
+		cfg.Database.Password,
+		cfg.Database.Host,
+		cfg.Database.Port,
+		cfg.Database.Name,
+	)
+	db, err := gorm.Open(mysql.Open(dsn))
+	if err != nil {
+		panic(err)
+	}
 	return db
 }

@@ -1,4 +1,4 @@
-package dto
+package record
 
 import (
 	"git.epam.com/ryan_wang/go-web-service/internal/models"

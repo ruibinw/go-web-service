@@ -1,4 +1,4 @@
-package repositories
+package record
 
 import (
 	"context"
@@ -23,16 +23,16 @@ func TestMain(m *testing.M) {
 
 func setup() {
 	//open database connection
-	db, _ = gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, _ = gorm.Open(sqlite.Open("file::memory:?cache=shared"))
 	//create Record table
 	db.AutoMigrate(&models.Record{})
 	//init data
 	db.Create([]*models.Record{
-		newRecord("name1", "/url1", "description1"),
-		newRecord("name2_go", "/url2", "description2"),
-		newRecord("name3", "/url3", "description3"),
-		newRecord("name4", "/url4", "description4"),
-		newRecord("name5_golang", "/url5", "description5"),
+		newRecordForRepoTest("name1", "/url1", "description1"),
+		newRecordForRepoTest("name2_go", "/url2", "description2"),
+		newRecordForRepoTest("name3", "/url3", "description3"),
+		newRecordForRepoTest("name4", "/url4", "description4"),
+		newRecordForRepoTest("name5_golang", "/url5", "description5"),
 	})
 }
 
@@ -40,9 +40,9 @@ func TestRepository_Create(t *testing.T) {
 	// start tx and rollback at the end in order to prevent effect on other unit tests
 	tx := db.Begin()
 	defer tx.Rollback()
-	testRepo := NewRecordRepository(tx)
+	testRepo := NewRepository(tx)
 
-	toCreate := newRecord("name", "url", "description")
+	toCreate := newRecordForRepoTest("name", "url", "description")
 	created, err := testRepo.Create(context.Background(), toCreate)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, created.ID)
@@ -52,7 +52,7 @@ func TestRepository_Update(t *testing.T) {
 	// start tx and rollback at the end in order to prevent effect on other unit tests
 	tx := db.Begin()
 	defer tx.Rollback()
-	testRepo := NewRecordRepository(tx)
+	testRepo := NewRepository(tx)
 
 	// get the record with id=1 for testing update operation
 	toUpdate := &models.Record{ID: 1}
@@ -74,7 +74,7 @@ func TestRepository_Delete(t *testing.T) {
 	// start tx and rollback at the end in order to prevent effect on other unit tests
 	tx := db.Begin()
 	defer tx.Rollback()
-	testRepo := NewRecordRepository(tx)
+	testRepo := NewRepository(tx)
 
 	err := testRepo.Delete(context.Background(), 1)
 	assert.NoError(t, err)
@@ -85,7 +85,7 @@ func TestRepository_Delete(t *testing.T) {
 }
 
 func TestRepository_Get(t *testing.T) {
-	testRepo := NewRecordRepository(db)
+	testRepo := NewRepository(db)
 
 	//Get existing record
 	record, _ := testRepo.Get(context.Background(), 1)
@@ -97,7 +97,7 @@ func TestRepository_Get(t *testing.T) {
 }
 
 func TestRepository_QueryByDisplayName(t *testing.T) {
-	testRepo := NewRecordRepository(db)
+	testRepo := NewRepository(db)
 
 	records, err := testRepo.Query(context.Background(), "go", 0, 10)
 	assert.NoError(t, err)
@@ -107,7 +107,7 @@ func TestRepository_QueryByDisplayName(t *testing.T) {
 }
 
 func TestRepository_QueryWithPagination(t *testing.T) {
-	testRepo := NewRecordRepository(db)
+	testRepo := NewRepository(db)
 
 	records, err := testRepo.Query(context.Background(), "", 0, 2)
 	assert.NoError(t, err)
@@ -126,7 +126,7 @@ func TestRepository_QueryWithPagination(t *testing.T) {
 	assert.Len(t, records, 0)
 }
 
-func newRecord(name, url, desc string) *models.Record {
+func newRecordForRepoTest(name, url, desc string) *models.Record {
 	now := time.Now()
 	return &models.Record{
 		DisplayName: name,

@@ -1,4 +1,4 @@
-package repositories
+package record
 
 import (
 	"context"
@@ -12,8 +12,8 @@ const (
 	DefaultPageSize = 10
 )
 
-// RecordRepository interface defines how to operate Records in database
-type RecordRepository interface {
+// Repository interface defines how to operate Records in database
+type Repository interface {
 	// Create inserts a new record
 	Create(ctx context.Context, record *models.Record) (*models.Record, error)
 	// Update updates the record with specified ID (ID is in record parameter)
@@ -27,32 +27,32 @@ type RecordRepository interface {
 	Query(ctx context.Context, displayName string, pageNum int, pageSize int) ([]*models.Record, error)
 }
 
-// RecordRepositoryImpl using gorm to interact with the database
-type RecordRepositoryImpl struct {
+// repositoryImpl using gorm to interact with the database
+type repositoryImpl struct {
 	db *gorm.DB
 }
 
-func NewRecordRepository(db *gorm.DB) RecordRepository {
-	return &RecordRepositoryImpl{db: db}
+func NewRepository(db *gorm.DB) Repository {
+	return &repositoryImpl{db: db}
 }
 
-func (repo *RecordRepositoryImpl) Create(ctx context.Context, record *models.Record) (*models.Record, error) {
+func (repo *repositoryImpl) Create(ctx context.Context, record *models.Record) (*models.Record, error) {
 	//ID is auto inclement
 	res := repo.db.WithContext(ctx).Create(record)
 	return record, res.Error
 }
 
-func (repo *RecordRepositoryImpl) Update(ctx context.Context, record *models.Record) (*models.Record, error) {
+func (repo *repositoryImpl) Update(ctx context.Context, record *models.Record) (*models.Record, error) {
 	res := repo.db.WithContext(ctx).Save(record)
 	return record, res.Error
 }
 
-func (repo *RecordRepositoryImpl) Delete(ctx context.Context, id int64) error {
+func (repo *repositoryImpl) Delete(ctx context.Context, id int64) error {
 	res := repo.db.WithContext(ctx).Delete(&models.Record{}, id)
 	return res.Error
 }
 
-func (repo *RecordRepositoryImpl) Get(ctx context.Context, id int64) (*models.Record, error) {
+func (repo *repositoryImpl) Get(ctx context.Context, id int64) (*models.Record, error) {
 	record := &models.Record{ID: id}
 	res := repo.db.WithContext(ctx).Find(record)
 	if res.RowsAffected == 0 {
@@ -61,7 +61,7 @@ func (repo *RecordRepositoryImpl) Get(ctx context.Context, id int64) (*models.Re
 	return record, nil
 }
 
-func (repo *RecordRepositoryImpl) Query(ctx context.Context, displayName string, pageNum int, pageSize int) ([]*models.Record, error) {
+func (repo *repositoryImpl) Query(ctx context.Context, displayName string, pageNum int, pageSize int) ([]*models.Record, error) {
 	var records []*models.Record
 	res := repo.db.WithContext(ctx).
 		Scopes(
