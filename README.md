@@ -7,6 +7,7 @@ A simple REST Web service written in Go that supports CRUD operations.
 - ORM Framework:        GORM
 - Dependency Injection: Wire
 - Unit Testing:         Testify+GoMock
+- API Documentation:    Swaggo/Swag
 - Database:             MySQL
 - Containerization:     Docker
 
@@ -18,27 +19,29 @@ go test -v ./internal/domains/record
 ```
 Note: Unit tests of repository layer use sqlite db that requires [gcc](https://gcc.gnu.org/install/binaries.html) to compile.
 
-## Building and Deployment
-### Build docker image
+## Building and Deployment using Docker
 ```shell
+# Build docker image
 docker build -t go-web-service/api-server:latest .
-```
-### Start up services
-```shell
+
+# Start up services
 docker-compose -f ./build/docker-compose.yml up -d
 ```
 
-8080 and 3306 port are used for the web api and database, by default.
+8080 and 3306 ports are used for the web api and database, by default.
 
-To specify ports for the web api (SERVER_PORT) and database (DB_PORT):
+Ports can be specified by setting environment variables `SERVER_PORT` and `DB_PORT`
+
+## Using Makefile to simplify command lines
 ```shell
-# Unix Shell
-DB_PORT=port1 SERVER_PORT=port2 docker-compose -f ./build/docker-compose.yml up
+# run unit tests
+make test
 
-# Windows CMD
-set DB_PORT=port1
-set SERVER_PORT=port2 
-docker-compose -f ./build/docker-compose.yml up -d
+# build docker image
+make build-docker
+
+# run all docker services in docker-compose file
+make run-docker
 ```
 
 
