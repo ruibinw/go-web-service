@@ -1,5 +1,10 @@
-build:
-	go build .
+VERSION=1.0.0
+
+build-bin:
+	go build -o gowebservice-v.$(VERSION) .
+
+build-exe:
+	go build -o gowebservice-v.$(VERSION).exe .
 
 test:
 	go test -v ./internal/domains/record
